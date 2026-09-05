@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprunki Greenixed Remake OCs Pool</title>
+  <style>
+    :root {
+      --green-main: #00ff66;
+      --green-glow: #00ff66aa;
+      --green-dark: rgba(5, 38, 16, 0.85);
+      --green-card: rgba(11, 26, 16, 0.9);
+      --bg-dark: #040d07;
+      --danger: #ff4757;
+      --warning: #ffa500;
+      --text: #e6ffe9;
+      --star-color: #00ffaa;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      margin: 0;
+      padding: 80px 20px 20px 20px; /* Espaço para a top-bar fixa */
+      background-color: var(--bg-dark);
+      /* Imagem de Fundo Atualizada */
+      background-image: url('https://img.itch.zone/aW1nLzI3MzcyNTczLnBuZw==/original/fYU8Wk.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Clouds */
+    .cloud-field {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .cloud-svg {
+      position: absolute;
+      left: -200px;
+      width: 130px;
+      height: auto;
+      filter: drop-shadow(0 0 12px var(--green-glow));
+      animation: floatClouds linear infinite;
+    }
+
+    @keyframes floatClouds {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 300px)); }
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Fixed Top Bar (Sticky/Fixed on Scroll) */
+    .top-bar {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      width: 90%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 38, 16, 0.92);
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 2px solid var(--green-main);
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+    }
+
+    .mute-btn {
+      background: var(--green-main);
+      color: #000;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .mute-btn:hover {
+      box-shadow: 0 0 10px var(--green-glow);
+      transform: scale(1.05);
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .logo-img {
+      max-width: 350px;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 15px var(--green-glow));
+      margin-bottom: 15px;
+    }
+
+    /* Mensagem do Admin */
+    .admin-announcement {
+      display: none;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .admin-announcement img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+
+    .admin-announcement-content h4 {
+      margin: 0 0 5px 0;
+      font-size: 1.1rem;
+    }
+
+    .admin-announcement-content p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .category-block {
+      background: var(--green-card);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .category-block h2, .category-block h3 {
+      color: var(--green-main);
+      margin-top: 0;
+    }
+
+    .rules-panel {
+      border-left: 5px solid var(--green-main);
+    }
+
+    .rules-panel ul {
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--green-main);
+      background: rgba(2, 10, 4, 0.9);
+      color: #fff;
+      font-size: 1rem;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+    }
+
+    .search-box:focus {
+      outline: none;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: 600; color: var(--green-main); }
+    
+    input[type="text"], textarea, input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--green-main);
+      background: rgba(2, 10, 4, 0.8);
+      color: #fff;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    button.submit-btn {
+      background: var(--green-main);
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    button.submit-btn:hover {
+      box-shadow: 0 0 20px var(--green-glow);
+      transform: scale(1.01);
+    }
+
+    button.submit-btn:disabled {
+      background: #555;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+
+    .card {
+      background: rgba(8, 24, 12, 0.95);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+    }
+
+    .svg-preview {
+      width: 100%;
+      height: 160px;
+      background: #020a04;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 10px;
+      border: 1px dashed var(--green-main);
+    }
+
+    .svg-preview svg, .svg-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .character-info { margin: 10px 0; }
+    .character-name { font-size: 1.2rem; font-weight: bold; color: #fff; margin: 0; }
+    .creator-name { font-size: 0.9rem; color: var(--green-main); margin: 3px 0 0 0; font-weight: 600; }
+
+    audio { width: 100%; margin-top: 8px; height: 35px; filter: invert(0.8) hue-rotate(80deg); }
+
+    .star-rating {
+      color: var(--star-color);
+      font-size: 1.1rem;
+      margin: 8px 0;
+      cursor: pointer;
+      text-shadow: 0 0 5px var(--green-glow);
+      font-weight: bold;
+    }
+
+    .badge-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--green-main);
+      color: black;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    .btn-group { display: flex; gap: 5px; margin-top: 8px; }
+
+    .vote-btn, .unvote-btn {
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .vote-btn { background: var(--green-main); color: #000; }
+    .unvote-btn { background: var(--danger); color: #fff; }
+    .vote-btn:disabled, .unvote-btn:disabled { background: #222; color: #555; cursor: not-allowed; border: 1px solid #333; }
+
+    /* Game Container no Final da Página */
+    .game-section {
+      width: 100%;
+      height: 600px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--green-main);
+      box-shadow: 0 0 20px var(--green-glow);
+      margin-top: 10px;
+    }
+
+    .game-section iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Side Buttons Panel */
+    .side-buttons {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .side-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(5, 38, 16, 0.9);
+      border: 2px solid var(--green-main);
+      padding: 8px 15px;
+      border-radius: 30px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 0 15px var(--green-glow);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      backdrop-filter: blur(5px);
+    }
+
+    .side-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px var(--green-main);
+      background: var(--green-main);
+      color: #000;
+    }
+
+    .side-btn img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--green-main);
+    }
+
+    .pause-banner {
+      background: var(--warning);
+      color: #000;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Audio de Fundo -->
+<audio id="bgMusic" loop>
+  <source src="https://static.wikia.nocookie.net/sprunki-greenixed/images/f/fa/Greenixedthink.mp3/revision/latest?cb=20260904171512" type="audio/mpeg">
+</audio>
+
+<!-- Animated Cloud SVG Background -->
+<div class="cloud-field" aria-hidden="true">
+  <img class="cloud-svg" style="top: 8%; animation-duration: 80s; opacity: 0.3;" src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="130.2" height="53" viewBox="0,0,130.2,53"><g><g stroke-miterlimit="10"><g><path d="M314.9,188.88136c0,7.3716 -13.43146,13.34746 -30,13.34746c-16.56854,0 -30,-5.97586 -30,-13.34746c0,-7.3716 13.43146,-13.34746 30,-13.34746c16.56854,0 30,5.97586 30,13.34746z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M346.83417,168.88561c2.78686,4.60967 2.26582,9.36667 2.26582,12.8771c0,9.53393 -14.90892,17.26271 -33.3,17.26271c-18.39108,0 -33.3,-7.72878 -33.3,-17.26271c0,-9.53393 18.90892,-28.26271 37.3,-28.26271c11.61943,0 22.25222,7.47591 27.03418,15.38561z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M368.9,191.37288c0,8.35448 -16.65501,15.12712 -37.2,15.12712c-20.54499,0 -37.2,-6.77264 -37.2,-15.12712c0,-8.35448 16.65501,-15.12712 37.2,-15.12712c20.54499,0 37.2,6.77264 37.2,15.12712z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M385.1,200.44915c0,1.76918 -22.29622,3.20339 -49.8,3.20339c-27.50378,0 -49.8,-1.43421 -49.8,-3.20339c0,-1.76918 22.29622,-3.20339 49.8,-3.20339c27.50378,0 49.8,1.43421 49.8,3.20339z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/></g></g></g></svg>' alt="cloud">
+  <img class="cloud-svg" style="top: 25%; animation-duration: 60s; animation-delay: -20s; opacity: 0.2; transform: scale(0.8);" src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="130.2" height="53" viewBox="0,0,130.2,53"><g><g stroke-miterlimit="10"><g><path d="M314.9,188.88136c0,7.3716 -13.43146,13.34746 -30,13.34746c-16.56854,0 -30,-5.97586 -30,-13.34746c0,-7.3716 13.43146,-13.34746 30,-13.34746c16.56854,0 30,5.97586 30,13.34746z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M346.83417,168.88561c2.78686,4.60967 2.26582,9.36667 2.26582,12.8771c0,9.53393 -14.90892,17.26271 -33.3,17.26271c-18.39108,0 -33.3,-7.72878 -33.3,-17.26271c0,-9.53393 18.90892,-28.26271 37.3,-28.26271c11.61943,0 22.25222,7.47591 27.03418,15.38561z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M368.9,191.37288c0,8.35448 -16.65501,15.12712 -37.2,15.12712c-20.54499,0 -37.2,-6.77264 -37.2,-15.12712c0,-8.35448 16.65501,-15.12712 37.2,-15.12712c20.54499,0 37.2,6.77264 37.2,15.12712z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/><path d="M385.1,200.44915c0,1.76918 -22.29622,3.20339 -49.8,3.20339c-27.50378,0 -49.8,-1.43421 -49.8,-3.20339c0,-1.76918 22.29622,-3.20339 49.8,-3.20339c27.50378,0 49.8,1.43421 49.8,3.20339z" stroke-width="0" fill="%23ffffff" stroke="none" transform="matrix(1,0,0,1,-254.9,-153.5)"/></g></g></g></svg>' alt="cloud">
+</div>
+
+<!-- Fixed Top Bar com Vote Counter e Mute Button -->
+<div class="top-bar">
+  <div id="voteStatus">Votes remaining: <strong>3</strong></div>
+  <button id="toggleMuteBtn" class="mute-btn" onclick="toggleMute()">🔊 Music ON</button>
+</div>
+
+<div class="container">
+
+  <div id="pauseBanner" class="pause-banner">⚠️ Voting is temporarily paused by the administrator.</div>
+
+  <!-- Admin Announcement Box -->
+  <div id="adminAnnouncement" class="admin-announcement">
+    <img id="adminMsgPhoto" src="" alt="Admin">
+    <div class="admin-announcement-content">
+      <h4 id="adminMsgAuthor"></h4>
+      <p id="adminMsgText"></p>
+    </div>
+  </div>
+
+  <header>
+    <!-- Logo Atualizada -->
+    <img src="https://img.itch.zone/aW1nLzI3MzcyNTk3LnBuZw==/original/v%2BxySb.png" alt="Sprunki Greenixed Logo" class="logo-img">
+    <p>Submit your OC to get votes! The top 5 OCs will be featured in the Sprunki Greenixed remake.</p>
+  </header>
+
+  <!-- Rules Panel -->
+  <div class="category-block rules-panel">
+    <h3>📜 Event Rules</h3>
+    <ul>
+      <li><strong>Any Style:</strong> OCs in any art style are allowed.</li>
+      <li><strong>Ownership:</strong> Your OC must belong to you.</li>
+      <li><strong>Clean Media:</strong> No inappropriate or problematic media.</li>
+      <li><strong>Safe Content:</strong> No NSFW (+18) content.</li>
+      <li><strong>Audio Limits:</strong> The site only supports files up to 1MB (Optional). Using <code>.ogg</code> format is highly recommended.</li>
+      <li><strong>Sharing & Promotion:</strong> Self-promotion is allowed, but please keep it moderate.</li>
+      <li><strong>Accounts:</strong> It is recommended to add your Discord or Stoat account in the OC description.</li>
+      <li><strong>Votes:</strong> Each user can vote for up to 3 OCs.</li>
+      <li><strong>OC Submissions:</strong> After submitting an OC, you must wait for an admin to approve it.</li>
+    </ul>
+  </div>
+
+  <div class="category-block">
+    <h2>Submit Greenixed Design</h2>
+    <form id="uploadForm">
+      <div class="form-group">
+        <label>OC / Greenixed Name *</label>
+        <input type="text" id="ocName" required placeholder="e.g. Greeny Oren">
+      </div>
+      <div class="form-group">
+        <label>Creator Name *</label>
+        <input type="text" id="creatorName" required placeholder="e.g. GreenyBomba">
+      </div>
+      <div class="form-group">
+        <label>Main Design (SVG / Image) *</label>
+        <input type="file" id="svgFile" accept=".svg,image/*" required>
+      </div>
+      <div class="form-group">
+        <label>Audio / Sound Loop (Optional)</label>
+        <input type="file" id="soundFile" accept="audio/*">
+      </div>
+      <div class="form-group">
+        <label>Description (Optional - Add your Discord/Stoat here)</label>
+        <textarea id="desc" rows="3" placeholder="Details, sound info, Discord/Stoat tags..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="btnSubmit">Publish Submission</button>
+    </form>
+  </div>
+
+  <div class="category-block">
+    <h2>🏆 Top 5</h2>
+    <div class="grid" id="topGrid"></div>
+  </div>
+
+  <div class="category-block">
+    <h2>🎨 All Submissions</h2>
+    
+    <!-- Search Field -->
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Search OCs by name or creator..." oninput="filterCards()">
+
+    <div class="grid" id="allGrid"></div>
+  </div>
+
+  <!-- Play Greenixed 1 no Fundo da Página -->
+  <div class="category-block">
+    <h2>🎮 Play Greenixed 1</h2>
+    <div class="game-section">
+      <iframe src="https://lol.dimod.org/games/c8ce0882-920a-4c2a-b0ff-89258aa5b4db.html" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</div>
+
+<!-- Side Buttons: GreenynDoGrau & Sky Connection -->
+<div class="side-buttons">
+  <a href="https://greenyndograu.itch.io" target="_blank" class="side-btn">
+    <img src="https://img.itch.zone/aW1nLzI2NzExMTgxLnBuZw==/70x70%23/Y8kW9K.png" alt="GreenynDoGrau">
+    <span>GreenynDoGrau</span>
+  </a>
+
+  <a href="https://dimod.org/teams/sky-connection" target="_blank" class="side-btn">
+    <img src="https://static.wikia.nocookie.net/sprunki-greenixed/images/b/bf/SkyConnection.jpg/revision/latest?cb=20260830203624" alt="Sky Connection">
+    <span>Sky Connection</span>
+  </a>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAB2QhwXXTYjTMM75HkqLdVNwYgUL70Id8",
+    authDomain: "sprunki-voting.firebaseapp.com",
+    projectId: "sprunki-voting",
+    storageBucket: "sprunki-voting.firebasestorage.app",
+    messagingSenderId: "932007960522",
+    appId: "1:932007960522:web:867ee475efabf6704fb933"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  /* Configuração do Áudio de Fundo */
+  const bgMusic = document.getElementById('bgMusic');
+  const toggleMuteBtn = document.getElementById('toggleMuteBtn');
+  bgMusic.volume = 0.5; // Setado em 50% de volume
+
+  // Tenta iniciar a música no primeiro clique/interação do usuário
+  const startAudio = () => {
+    bgMusic.play().then(() => {
+      document.removeEventListener('click', startAudio);
+    }).catch(() => {});
+  };
+  document.addEventListener('click', startAudio);
+
+  window.toggleMute = function() {
+    if (bgMusic.paused) {
+      bgMusic.play();
+      bgMusic.muted = false;
+      toggleMuteBtn.innerText = '🔊 Music ON';
+    } else if (bgMusic.muted) {
+      bgMusic.muted = false;
+      toggleMuteBtn.innerText = '🔊 Music ON';
+    } else {
+      bgMusic.muted = true;
+      toggleMuteBtn.innerText = '🔇 Music OFF';
+    }
+  };
+
+  let votingPausedUntil = 0;
+  let wasPausedBefore = false;
+  let votedItems = JSON.parse(localStorage.getItem('votedItems') || '[]');
+  let designs = [];
+
+  function playPauseSound() {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.4);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    } catch(e) {
+      console.log("Audio alert blocked by browser permissions");
+    }
+  }
+
+  onSnapshot(doc(db, "settings", "voting"), (docSnap) => {
+    if (docSnap.exists()) {
+      votingPausedUntil = docSnap.data().pausedUntil || 0;
+    } else {
+      votingPausedUntil = 0;
+    }
+    const isPaused = Date.now() < votingPausedUntil;
+    
+    if (isPaused && !wasPausedBefore) {
+      playPauseSound();
+    }
+    wasPausedBefore = isPaused;
+
+    document.getElementById('pauseBanner').style.display = isPaused ? 'block' : 'none';
+    renderCards();
+  });
+
+  onSnapshot(doc(db, "settings", "announcement"), (docSnap) => {
+    const banner = document.getElementById('adminAnnouncement');
+    if (docSnap.exists() && docSnap.data().active) {
+      const data = docSnap.data();
+      banner.style.display = 'flex';
+      banner.style.backgroundColor = data.bgColor || 'var(--green-dark)';
+      banner.style.border = `2px solid ${data.bgColor || 'var(--green-main)'}`;
+      document.getElementById('adminMsgAuthor').innerText = data.author || 'Admin';
+      document.getElementById('adminMsgText').innerText = data.text || '';
+      
+      const photoImg = document.getElementById('adminMsgPhoto');
+      if (data.photo) {
+        photoImg.src = data.photo;
+        photoImg.style.display = 'block';
+      } else {
+        photoImg.style.display = 'none';
+      }
+    } else {
+      banner.style.display = 'none';
+    }
+  });
+
+  onSnapshot(collection(db, "designs"), (snapshot) => {
+    designs = snapshot.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(item => item.approved === true);
+    renderCards();
+  });
+
+  function updateStatusUI() {
+    document.getElementById('voteStatus').innerHTML = `Votes remaining: <strong>${3 - votedItems.length}</strong>`;
+  }
+
+  window.filterCards = function() {
+    renderCards();
+  };
+
+  function renderCards() {
+    const topGrid = document.getElementById('topGrid');
+    const allGrid = document.getElementById('allGrid');
+    const searchQuery = (document.getElementById('searchInput')?.value || '').toLowerCase();
+
+    topGrid.innerHTML = '';
+    allGrid.innerHTML = '';
+
+    const sorted = [...designs].sort((a, b) => (b.votes || 0) - (a.votes || 0));
+    const top5 = sorted.slice(0, 5);
+    const isVotingPaused = Date.now() < votingPausedUntil;
+
+    const filteredDesigns = designs.filter(item => 
+      (item.ocName || '').toLowerCase().includes(searchQuery) || 
+      (item.creatorName || '').toLowerCase().includes(searchQuery)
+    );
+
+    function createCardElement(item, index, isTop) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const hasVoted = votedItems.includes(item.id);
+      const audioHtml = item.soundUrl ? `<audio controls src="${item.soundUrl}"></audio>` : '';
+      
+      const ratingDisplay = item.rating ? `★ ${Number(item.rating).toFixed(1)}` : '★ NONE';
+
+      card.innerHTML = `
+        ${isTop ? `<span class="badge-top">#${index + 1} OC</span>` : ''}
+        <div class="svg-preview">${item.svgData}</div>
+        
+        <div class="character-info">
+          <p class="character-name">${item.ocName}</p>
+          <p class="creator-name">By ${item.creatorName}</p>
+        </div>
+
+        ${audioHtml}
+        <p style="font-size:0.85rem; color:#aaa; margin: 8px 0 0 0;">${item.desc || ''}</p>
+        <div class="star-rating" onclick="rateItem('${item.id}', ${item.rating || 'null'})">${ratingDisplay}</div>
+        <p><strong>${item.votes || 0}</strong> Votes</p>
+        <div class="btn-group">
+          <button class="vote-btn" ${hasVoted || votedItems.length >= 3 || isVotingPaused ? 'disabled' : ''} onclick="castVote('${item.id}')">
+            ${isVotingPaused ? 'Paused' : 'Vote'}
+          </button>
+          <button class="unvote-btn" ${!hasVoted || isVotingPaused ? 'disabled' : ''} onclick="removeVote('${item.id}')">Remove Vote</button>
+        </div>
+      `;
+      return card;
+    }
+
+    top5.forEach((item, index) => topGrid.appendChild(createCardElement(item, index, true)));
+    filteredDesigns.forEach((item) => allGrid.appendChild(createCardElement(item, -1, false)));
+    updateStatusUI();
+  }
+
+  window.castVote = async function(id) {
+    if (Date.now() < votingPausedUntil) return alert("Voting is currently paused!");
+    if (votedItems.length >= 3) return;
+    if (!votedItems.includes(id)) {
+      votedItems.push(id);
+      localStorage.setItem('votedItems', JSON.stringify(votedItems));
+      await updateDoc(doc(db, "designs", id), { votes: increment(1) });
+    }
+  };
+
+  window.removeVote = async function(id) {
+    if (Date.now() < votingPausedUntil) return alert("Voting is currently paused!");
+    if (votedItems.includes(id)) {
+      votedItems = votedItems.filter(vId => vId !== id);
+      localStorage.setItem('votedItems', JSON.stringify(votedItems));
+      await updateDoc(doc(db, "designs", id), { votes: increment(-1) });
+    }
+  };
+
+  window.rateItem = async function(id, currentRating) {
+    const score = prompt("Rate this OC from 1 to 5 stars:");
+    const num = parseFloat(score);
+    if (num >= 1 && num <= 5) {
+      let newRating = num;
+      if (currentRating !== null && currentRating !== undefined) {
+        newRating = (currentRating + num) / 2;
+      }
+      await updateDoc(doc(db, "designs", id), { rating: newRating });
+    }
+  };
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
+    });
+  }
+
+  document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const ocName = document.getElementById('ocName').value;
+    const creatorName = document.getElementById('creatorName').value;
+    const desc = document.getElementById('desc').value;
+    const svgInput = document.getElementById('svgFile').files[0];
+    const soundInput = document.getElementById('soundFile').files[0];
+
+    if (!svgInput || !ocName || !creatorName) {
+      alert("Please fill in all required fields!");
+      return;
+    }
+
+    if (soundInput && soundInput.size > 1024 * 1024) {
+      alert("Audio file is too large! Please select a file under 1MB.");
+      return;
+    }
+
+    const btnSubmit = document.getElementById('btnSubmit');
+    btnSubmit.disabled = true;
+    btnSubmit.innerText = "Publishing...";
+
+    try {
+      let svgContent = "";
+
+      if (svgInput.type.includes('svg') || svgInput.name.endsWith('.svg')) {
+        svgContent = await readFileAsText(svgInput);
+      } else {
+        const imgDataUrl = await readFileAsDataURL(svgInput);
+        svgContent = `<img src="${imgDataUrl}" alt="${ocName}"/>`;
+      }
+
+      let soundDataUrl = "";
+      if (soundInput) {
+        soundDataUrl = await readFileAsDataURL(soundInput);
+      }
+
+      await addDoc(collection(db, "designs"), {
+        ocName: ocName,
+        creatorName: creatorName,
+        desc: desc,
+        svgData: svgContent,
+        soundUrl: soundDataUrl,
+        votes: 0,
+        rating: null,
+        approved: false,
+        createdAt: Date.now()
+      });
+
+      alert('Your OC was submitted successfully! It is now pending admin approval.');
+      document.getElementById('uploadForm').reset();
+    } catch (error) {
+      console.error("Error submitting OC:", error);
+      alert("Failed to submit OC. Please try again.");
+    } finally {
+      btnSubmit.disabled = false;
+      btnSubmit.innerText = "Publish Submission";
+    }
+  });
+</script>
+
+</body>
+</html>
