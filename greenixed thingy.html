@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sprunki Greenixed Remake OCs Pool</title>
+
+  <!-- Google Font: Allan -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allan:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green-main: #00ff66;
+      --green-glow: #00ff66aa;
+      --green-dark: rgba(5, 38, 16, 0.85);
+      --green-card: rgba(11, 26, 16, 0.9);
+      --bg-dark: #040d07;
+      --danger: #ff4757;
+      --warning: #ffa500;
+      --text: #e6ffe9;
+      --star-color: #ffd700;
+    }
+
+    body {
+      font-family: 'Allan', cursive, sans-serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      margin: 0;
+      padding-top: 140px; 
+      padding-bottom: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+      background-color: var(--bg-dark);
+      background-image: url('https://img.itch.zone/aW1nLzI3MzcyNTczLnBuZw==/original/fYU8Wk.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Tornado Animation Effects */
+    @keyframes tornadoSuck {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(calc(50vw - 50%), -50vh) scale(0.4) rotate(720deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(0, -120vh) scale(0) rotate(1440deg);
+        opacity: 0;
+      }
+    }
+
+    .tornado-active {
+      animation: tornadoSuck 2.2s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards !important;
+      pointer-events: none;
+    }
+
+    #blackoutOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000;
+      z-index: 999999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 2s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #blackoutOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #typingTextDisplay {
+      font-family: 'Allan', cursive, sans-serif;
+      font-size: 4rem;
+      color: var(--green-main);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px var(--green-glow);
+    }
+
+    /* Cloud Animation Styles (Solid White SVG with adjusted transparency) */
+    .cloud-field {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .cloud-svg {
+      position: absolute;
+      left: -150px;
+      width: 120px;
+      height: auto;
+      fill: #ffffff !important;
+      opacity: 0.45;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+      animation: floatClouds linear infinite;
+    }
+
+    .cloud-svg path {
+      fill: #ffffff !important;
+      fill-opacity: 0.45;
+    }
+
+    .cloud-1 {
+      top: 10%;
+      animation-duration: 45s;
+    }
+
+    .cloud-2 {
+      top: 40%;
+      animation-duration: 65s;
+      animation-delay: -20s;
+      transform: scale(0.7);
+    }
+
+    @keyframes floatClouds {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(calc(100vw + 200px));
+      }
+    }
+
+    #pausedBanner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #000000;
+      color: var(--danger);
+      text-align: center;
+      padding: 12px 10px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      z-index: 20000;
+      border-bottom: 2px solid var(--danger);
+      box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+      letter-spacing: 1px;
+      box-sizing: border-box;
+    }
+
+    h1, h2, h3, h4, .top-bar, button, label {
+      font-family: 'Allan', cursive, sans-serif;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 60px; 
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      width: 90%;
+      max-width: 960px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 38, 16, 0.92);
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 2px solid var(--green-main);
+      box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+      backdrop-filter: blur(10px);
+      box-sizing: border-box;
+      font-size: 1.2rem;
+    }
+
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .music-btn {
+      background: var(--green-main);
+      color: #000;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Allan', cursive, sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+    .music-btn:hover { opacity: 0.9; }
+
+    header { text-align: center; padding: 20px 0; }
+    header p { font-size: 1.3rem; }
+    .logo-img { max-width: 350px; width: 100%; height: auto; filter: drop-shadow(0 0 15px var(--green-glow)); }
+
+    .admin-announcement {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      padding: 18px 22px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      background: var(--green-card);
+      border: 2px solid var(--green-main);
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+
+    .announcement-item {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 15px;
+      padding-bottom: 15px;
+    }
+
+    .announcement-item + .announcement-item {
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 15px;
+    }
+
+    .admin-pfp {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--green-main);
+      box-shadow: 0 0 10px var(--green-glow);
+      flex-shrink: 0;
+      background: #020a04;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .admin-pfp img, .admin-pfp svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .announcement-toggle-container {
+      border-top: 1px solid rgba(0, 255, 102, 0.2);
+      padding-top: 10px;
+      margin-top: 5px;
+    }
+
+    .announcement-toggle {
+      color: #00ff66;
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: underline;
+      display: inline-block;
+    }
+    .announcement-toggle:hover { color: #fff; }
+
+    .category-block {
+      background: var(--green-card);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .category-block h2, .category-block h3 {
+      color: var(--green-main);
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+    .rules-panel { border-left: 5px solid var(--green-main); }
+    .rules-panel ul { padding-left: 20px; line-height: 1.6; }
+
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; color: var(--green-main); font-size: 1.2rem; }
+    input[type="text"], textarea, input[type="file"] {
+      font-family: 'Allan', cursive, sans-serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+      width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--green-main);
+      background: rgba(2, 10, 4, 0.8); color: #fff; box-sizing: border-box;
+    }
+
+    button.submit-btn {
+      background: var(--green-main); color: #000; border: none; padding: 12px;
+      font-size: 1.3rem; border-radius: 8px; cursor: pointer; width: 100%;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--green-main);
+      color: var(--green-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Allan', cursive, sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--green-main);
+      color: #000;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(2, 10, 4, 0.8);
+      border: 1px solid var(--green-main);
+      border-radius: 20px;
+      padding: 6px 15px;
+      color: #fff;
+      font-family: 'Allan', cursive, sans-serif;
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+      gap: 20px; 
+      align-items: stretch;
+    }
+
+    .card { 
+      background: rgba(8, 24, 12, 0.95); 
+      border-radius: 10px; 
+      padding: 15px; 
+      text-align: center; 
+      border: 1px solid rgba(0, 255, 102, 0.3); 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .badge-top {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 255, 102, 0.2);
+      border: 1px solid var(--green-main);
+      color: var(--green-main);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .badge-rank-1 {
+      background: rgba(255, 215, 0, 0.3) !important;
+      border-color: #ffd700 !important;
+      color: #ffd700 !important;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    .badge-rank-2 {
+      background: rgba(192, 192, 192, 0.3) !important;
+      border-color: #c0c0c0 !important;
+      color: #e0e0e0 !important;
+      box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+    }
+    .badge-rank-3 {
+      background: rgba(205, 127, 50, 0.3) !important;
+      border-color: #cd7f32 !important;
+      color: #e6a15c !important;
+      box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .svg-preview { width: 100%; height: 160px; background: #020a04; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; border: 1px dashed var(--green-main); }
+    .svg-preview svg, .svg-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+    .card-audio {
+      margin: 8px 0;
+      width: 100%;
+    }
+    .card-audio audio {
+      width: 100%;
+      height: 35px;
+      border-radius: 6px;
+    }
+
+    .star-rating { 
+      display: flex; 
+      justify-content: center; 
+      gap: 6px; 
+      margin: 8px 0; 
+      font-size: 1.8rem; 
+      cursor: pointer; 
+    }
+    .star-rating span { 
+      color: #444; 
+      transition: color 0.2s, transform 0.1s; 
+    }
+    .star-rating span:hover, .star-rating span.active { 
+      color: var(--star-color); 
+      transform: scale(1.15); 
+    }
+
+    .card-desc {
+      font-size: 0.95rem; 
+      color: #aaa; 
+      margin: 5px 0; 
+      word-break: break-word;
+      max-height: 80px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.2);
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .vote-btn, .unvote-btn {
+      font-family: 'Allan', cursive, sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none; padding: 8px; border-radius: 6px; cursor: pointer; flex: 1;
+    }
+    .vote-btn { background: var(--green-main); color: #000; }
+    .unvote-btn { background: var(--danger); color: #fff; }
+    .vote-btn:disabled, .unvote-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
+
+    .game-iframe-container {
+      width: 100%;
+      height: 600px;
+      border: 2px solid var(--green-main);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+    .game-iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .floating-links-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 15000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .floating-link-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--green-card);
+      border: 2px solid var(--green-main);
+      padding: 8px 16px 8px 8px;
+      border-radius: 30px;
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
+      backdrop-filter: blur(10px);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .floating-link-btn:hover {
+      background: rgba(0, 255, 102, 0.2);
+      box-shadow: 0 0 20px var(--green-glow);
+      transform: translateY(-2px);
+    }
+
+    .floating-link-pfp {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--green-main);
+      background: #020a04;
+      flex-shrink: 0;
+    }
+
+    .floating-link-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .pagination-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .page-btn {
+      background: transparent;
+      border: 1px solid var(--green-main);
+      color: var(--green-main);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Allan', cursive, sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .page-btn.active, .page-btn:hover {
+      background: var(--green-main);
+      color: #000;
+      box-shadow: 0 0 10px var(--green-glow);
+    }
+
+    .page-btn:disabled {
+      border-color: #333;
+      color: #555;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    .page-info {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="blackoutOverlay">
+  <div id="typingTextDisplay"></div>
+</div>
+
+<div class="cloud-field" aria-hidden="true">
+  <img class="cloud-svg cloud-1" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'&gt;&lt;path d='M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z' fill-opacity='0.45'/&gt;&lt;/svg&gt;" alt="">
+  <img class="cloud-svg cloud-2" src="data:image/svg+xml;utf8,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'&gt;&lt;path d='M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z' fill-opacity='0.45'/&gt;&lt;/svg&gt;" alt="">
+</div>
+
+<div id="pausedBanner">Voting has been temporarily paused by the admins.</div>
+
+<audio id="bgAudio" loop autoplay muted>
+  <source src="https://static.wikia.nocookie.net/sprunki-greenixed/images/f/fa/Greenixedthink.mp3/revision/latest?cb=20260904171512" type="audio/mpeg">
+</audio>
+
+<div class="top-bar" id="topBar">
+  <div id="voteStatus">Votes remaining: <strong>3</strong></div>
+  <div class="top-controls">
+    <button class="music-btn" id="musicToggleBtn" onclick="toggleMusic()">🔊 Music ON</button>
+  </div>
+</div>
+
+<div class="floating-links-container" id="floatingLinksContainer"></div>
+
+<div id="remoteCustomHtmlContainer"></div>
+
+<header>
+  <!-- Replaced forced Olavo static image with standard header logo / title style -->
+  <h1 style="font-size: 3rem; color: var(--green-main); margin: 0; text-shadow: 0 0 15px var(--green-glow);">Sprunki Greenixed</h1>
+  <p>Submit your OC to get votes! The top 5 OCs will be featured in the Sprunki Greenixed remake.</p>
+</header>
+
+<div class="container">
+  <div id="adminAnnouncement" class="admin-announcement">
+    <div id="announcementsListContainer"></div>
+  </div>
+
+  <div class="category-block rules-panel">
+    <h3>📜 Event Rules</h3>
+    <ul id="rulesListContainer"></ul>
+  </div>
+
+  <div class="category-block">
+    <h2>Submit Greenixed Design</h2>
+    <form id="uploadForm">
+      <div class="form-group">
+        <label>OC / Greenixed Name *</label>
+        <input type="text" id="ocName" required placeholder="e.g. Greeny Oren">
+      </div>
+      <div class="form-group">
+        <label>Creator Name *</label>
+        <input type="text" id="creatorName" required placeholder="e.g. GreenyBomba">
+      </div>
+      <div class="form-group">
+        <label>Main Design (SVG / Image) *</label>
+        <input type="file" id="svgFile" accept=".svg,image/*" required>
+      </div>
+      <div class="form-group">
+        <label>Add Sound (Optional)</label>
+        <input type="file" id="soundFile" accept="audio/*,.ogg">
+      </div>
+      <div class="form-group">
+        <label>Which Mod? (Optional)</label>
+        <input type="text" id="modName" placeholder="e.g. Pyramixed, Greenixed">
+      </div>
+      <div class="form-group">
+        <label>Description (Optional)</label>
+        <textarea id="desc" rows="3" placeholder="Details, Discord tag..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="btnSubmit">Publish Submission</button>
+    </form>
+  </div>
+
+  <div class="category-block">
+    <h2>🏆 Top 5</h2>
+    <div class="grid" id="topGrid"></div>
+  </div>
+
+  <div class="category-block">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+      <h2 style="margin: 0;">🎨 All Submissions</h2>
+    </div>
+    
+    <div class="filter-bar">
+      <button class="filter-btn active" id="filterVotes" onclick="setSortMode('votes')">Votes</button>
+      <button class="filter-btn" id="filterAz" onclick="setSortMode('az')">A-Z</button>
+      <button class="filter-btn" id="filterZa" onclick="setSortMode('za')">Z-A</button>
+      <button class="filter-btn" id="filterStars" onclick="setSortMode('stars')">Stars</button>
+      <input type="text" id="searchInput" class="search-input" placeholder="Search any OC name..." oninput="handleSearchInput(event)">
+    </div>
+
+    <div class="grid" id="allGrid"></div>
+    
+    <div class="pagination-bar" id="paginationContainer"></div>
+  </div>
+
+  <div class="category-block">
+    <h2>🎮 Play Greenixed 1</h2>
+    <div class="game-iframe-container">
+      <iframe src="https://lol.dimod.org/games/c8ce0882-920a-4c2a-b0ff-89258aa5b4db.html" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAB2QhwXXTYjTMM75HkqLdVNwYgUL70Id8",
+    authDomain: "sprunki-voting.firebaseapp.com",
+    projectId: "sprunki-voting",
+    storageBucket: "sprunki-voting.firebasestorage.app",
+    messagingSenderId: "932007960522",
+    appId: "1:932007960522:web:867ee475efabf6704fb933"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const DEFAULT_RULES = [
+    "<strong>Any Style:</strong> OCs in any art style are allowed.",
+    "<strong>Ownership:</strong> Your OC must belong to you.",
+    "<strong>Clean Media:</strong> No inappropriate or problematic media.",
+    "<strong>Safe Content:</strong> No NSFW (+18) content.",
+    "<strong>Votes & Ratings:</strong> Each user can vote for up to 3 OCs and give up to 5-star ratings."
+  ];
+
+  const DEFAULT_QUICK_LINKS = [
+    {
+      id: "default-1",
+      name: "GreenynDoGrau",
+      url: "https://greenyndograu.itch.io/",
+      pfp: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150"
+    },
+    {
+      id: "default-2",
+      name: "Sky Connection",
+      url: "https://dimod.org/teams/sky-connection",
+      pfp: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=150"
+    }
+  ];
+
+  let votedItems = JSON.parse(localStorage.getItem('votedItems') || '[]');
+  let ratedItems = JSON.parse(localStorage.getItem('ratedItems') || '{}');
+  let designs = [];
+  let cachedAnnouncements = [];
+  let lastRefreshSignal = null;
+  let lastAnimationSignal = null;
+  let lastRestoreSignal = null;
+  let showAllAnnouncements = false;
+  let isVotingPaused = false;
+  
+  let currentSortMode = 'votes';
+  let searchQuery = '';
+  let currentPage = 1;
+  const itemsPerPage = 9;
+
+  const bgAudio = document.getElementById('bgAudio');
+  const musicBtn = document.getElementById('musicToggleBtn');
+  const pausedBanner = document.getElementById('pausedBanner');
+  const topBar = document.getElementById('topBar');
+
+  bgAudio.play().then(() => {
+    const unmuteOnInteraction = () => {
+      bgAudio.muted = false;
+      musicBtn.innerText = "🔊 Music ON";
+      window.removeEventListener('click', unmuteOnInteraction);
+      window.removeEventListener('keydown', unmuteOnInteraction);
+      window.removeEventListener('mousemove', unmuteOnInteraction);
+    };
+    window.addEventListener('click', unmuteOnInteraction);
+    window.addEventListener('keydown', unmuteOnInteraction);
+    window.addEventListener('mousemove', unmuteOnInteraction);
+  }).catch(err => {
+    console.log("Autoplay failed:", err);
+  });
+
+  window.toggleMusic = () => {
+    if (bgAudio.paused || bgAudio.muted) {
+      bgAudio.muted = false;
+      bgAudio.play().then(() => {
+        musicBtn.innerText = "🔊 Music ON";
+      }).catch(err => {
+        console.error("Audio playback error:", err);
+      });
+    } else {
+      bgAudio.pause();
+      musicBtn.innerText = "🔇 Music OFF";
+    }
+  };
+
+  function triggerTornadoAndTypingAnimation() {
+    const selectorsToSuck = ['.top-bar', 'header', '.container', '.floating-links-container', '#pausedBanner'];
+    selectorsToSuck.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.classList.remove('tornado-active');
+        void el.offsetWidth;
+        el.classList.add('tornado-active');
+      });
+    });
+
+    setTimeout(() => {
+      const blackoutOverlay = document.getElementById('blackoutOverlay');
+      const textDisplay = document.getElementById('typingTextDisplay');
+      blackoutOverlay.classList.add('active');
+
+      const textSequence = ["i", "it", "it i", "it is", "it is over"];
+      let stepIndex = 0;
+
+      function typeNextStep() {
+        if (stepIndex < textSequence.length && blackoutOverlay.classList.contains('active')) {
+          textDisplay.innerText = textSequence[stepIndex];
+          stepIndex++;
+          setTimeout(typeNextStep, 500);
+        }
+      }
+
+      typeNextStep();
+    }, 2200);
+  }
+
+  function restoreWebsiteState() {
+    const blackoutOverlay = document.getElementById('blackoutOverlay');
+    const textDisplay = document.getElementById('typingTextDisplay');
+    blackoutOverlay.classList.remove('active');
+    textDisplay.innerText = '';
+
+    const selectorsToSuck = ['.top-bar', 'header', '.container', '.floating-links-container', '#pausedBanner'];
+    selectorsToSuck.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        el.classList.remove('tornado-active');
+      });
+    });
+  }
+
+  onSnapshot(doc(db, "settings", "quickLinks"), (snap) => {
+    const container = document.getElementById('floatingLinksContainer');
+    let links = DEFAULT_QUICK_LINKS;
+    if (snap.exists() && snap.data().links) {
+      links = snap.data().links;
+    }
+
+    container.innerHTML = links.map(link => `
+      <a href="${link.url}" target="_blank" class="floating-link-btn">
+        <img src="${link.pfp}" alt="${link.name}" class="floating-link-pfp">
+        <span class="floating-link-text">${link.name}</span>
+      </a>
+    `).join('');
+  });
+
+  onSnapshot(doc(db, "settings", "system"), (snap) => {
+    if (snap.exists()) {
+      const data = snap.data();
+      if (data.bgImage) document.body.style.backgroundImage = `url('${data.bgImage}')`;
+      if (data.siteCustomHtml !== undefined) {
+        document.getElementById('remoteCustomHtmlContainer').innerHTML = data.siteCustomHtml;
+      }
+      
+      if (data.votingEnabled !== undefined) {
+        isVotingPaused = !data.votingEnabled;
+      } else if (data.votingPaused !== undefined) {
+        isVotingPaused = !!data.votingPaused;
+      }
+
+      if (isVotingPaused) {
+        pausedBanner.style.display = 'block';
+        topBar.style.top = '65px';
+        document.body.style.paddingTop = '130px';
+      } else {
+        pausedBanner.style.display = 'none';
+        topBar.style.top = '15px';
+        document.body.style.paddingTop = '80px';
+      }
+
+      renderCards();
+
+      if (data.forceRefreshTimestamp && data.forceRefreshTimestamp !== lastRefreshSignal) {
+        if (lastRefreshSignal !== null) window.location.reload();
+        lastRefreshSignal = data.forceRefreshTimestamp;
+      }
+
+      if (data.triggerAnimationTimestamp && data.triggerAnimationTimestamp !== lastAnimationSignal) {
+        lastAnimationSignal = data.triggerAnimationTimestamp;
+        triggerTornadoAndTypingAnimation();
+      }
+
+      if (data.restoreAnimationTimestamp && data.restoreAnimationTimestamp !== lastRestoreSignal) {
+        lastRestoreSignal = data.restoreAnimationTimestamp;
+        restoreWebsiteState();
+      }
+    }
+  });
+
+  onSnapshot(doc(db, "settings", "eventRules"), (snap) => {
+    const container = document.getElementById('rulesListContainer');
+    let rules = DEFAULT_RULES;
+    if (snap.exists() && snap.data().rules && snap.data().rules.length > 0) {
+      rules = snap.data().rules;
+    }
+    container.innerHTML = rules.map(r => `<li>${r}</li>`).join('');
+  });
+
+  onSnapshot(collection(db, "announcements"), (snapshot) => {
+    cachedAnnouncements = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    cachedAnnouncements.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    renderAnnouncements();
+  });
+
+  function renderAnnouncements() {
+    const banner = document.getElementById('adminAnnouncement');
+    const container = document.getElementById('announcementsListContainer');
+
+    if (cachedAnnouncements.length > 0) {
+      banner.style.display = 'flex';
+      
+      const itemsToRender = showAllAnnouncements ? cachedAnnouncements : [cachedAnnouncements[0]];
+      let htmlContent = '';
+
+      itemsToRender.forEach(ann => {
+        const pfpVal = ann.pfp || ann.adminPfp || ann.avatar || ann.image || ann.icon;
+        let pfpHtml = '👤';
+        if (pfpVal) {
+          const trimmed = String(pfpVal).trim();
+          pfpHtml = trimmed.startsWith('<svg') || trimmed.startsWith('<img') ? trimmed : `<img src="${trimmed}" alt="PFP">`;
+        }
+
+        htmlContent += `
+          <div class="announcement-item">
+            <div class="admin-pfp">${pfpHtml}</div>
+            <div class="admin-content">
+              <h3 style="margin:0; color:var(--green-main);">${ann.title || '📢 Announcement'}</h3>
+              <div style="font-size:0.95rem; color:#888;">By ${ann.author || 'Admin'}</div>
+              <p style="margin:5px 0 0 0;">${ann.body || ''}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      if (cachedAnnouncements.length > 1) {
+        if (!showAllAnnouncements) {
+          htmlContent += `
+            <div class="announcement-toggle-container">
+              <div class="announcement-toggle" id="annToggleBtn">and (${cachedAnnouncements.length - 1} more)</div>
+            </div>`;
+        } else {
+          htmlContent += `
+            <div class="announcement-toggle-container">
+              <div class="announcement-toggle" id="annToggleBtn">show less</div>
+            </div>`;
+        }
+      }
+
+      container.innerHTML = htmlContent;
+
+      const toggleBtn = document.getElementById('annToggleBtn');
+      if (toggleBtn) {
+        toggleBtn.onclick = () => {
+          showAllAnnouncements = !showAllAnnouncements;
+          renderAnnouncements();
+        };
+      }
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  onSnapshot(collection(db, "designs"), (snapshot) => {
+    designs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderCards();
+  });
+
+  window.setSortMode = (mode) => {
+    currentSortMode = mode;
+    currentPage = 1;
+    ['filterVotes', 'filterAz', 'filterZa', 'filterStars'].forEach(id => {
+      document.getElementById(id).classList.remove('active');
+    });
+    if (mode === 'votes') document.getElementById('filterVotes').classList.add('active');
+    if (mode === 'az') document.getElementById('filterAz').classList.add('active');
+    if (mode === 'za') document.getElementById('filterZa').classList.add('active');
+    if (mode === 'stars') document.getElementById('filterStars').classList.add('active');
+    renderCards();
+  };
+
+  window.handleSearchInput = (e) => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    currentPage = 1;
+    renderCards();
+  };
+
+  window.changePage = (newPage) => {
+    currentPage = newPage;
+    renderCards();
+    document.getElementById('allGrid').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  function renderCards() {
+    const topGrid = document.getElementById('topGrid');
+    const allGrid = document.getElementById('allGrid');
+    const paginationContainer = document.getElementById('paginationContainer');
+    
+    topGrid.innerHTML = '';
+    allGrid.innerHTML = '';
+    paginationContainer.innerHTML = '';
+
+    const approvedDesigns = designs.filter(i => i.approved === true || i.approved === undefined);
+    
+    const topSorted = [...approvedDesigns].sort((a, b) => (b.votes || 0) - (a.votes || 0));
+    topSorted.slice(0, 5).forEach((item, index) => {
+      topGrid.appendChild(createCard(item, index + 1));
+    });
+
+    let filtered = approvedDesigns.filter(item => {
+      if (!searchQuery) return true;
+      const name = (item.ocName || '').toLowerCase();
+      const creator = (item.creatorName || '').toLowerCase();
+      return name.includes(searchQuery) || creator.includes(searchQuery);
+    });
+
+    filtered.sort((a, b) => {
+      if (currentSortMode === 'votes') {
+        return (b.votes || 0) - (a.votes || 0);
+      } else if (currentSortMode === 'az') {
+        return (a.ocName || '').localeCompare(b.ocName || '');
+      } else if (currentSortMode === 'za') {
+        return (b.ocName || '').localeCompare(a.ocName || '');
+      } else if (currentSortMode === 'stars') {
+        const aStars = a.ratingCount && a.ratingCount > 0 ? (a.totalRating / a.ratingCount) : (a.stars || 0);
+        const bStars = b.ratingCount && b.ratingCount > 0 ? (b.totalRating / b.ratingCount) : (b.stars || 0);
+        return bStars - aStars;
+      }
+      return 0;
+    });
+
+    if (filtered.length === 0) {
+      allGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888;">No matching OCs found.</p>`;
+    } else {
+      const totalPages = Math.ceil(filtered.length / itemsPerPage);
+      if (currentPage > totalPages) currentPage = totalPages || 1;
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const paginatedItems = filtered.slice(startIndex, endIndex);
+
+      paginatedItems.forEach((item) => {
+        allGrid.appendChild(createCard(item, null));
+      });
+
+      if (totalPages > 1) {
+        let paginationHTML = `
+          <button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">◀ Prev</button>
+          <span class="page-info">Page ${currentPage} of ${totalPages}</span>
+          <button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Next ▶</button>
+        `;
+        paginationContainer.innerHTML = paginationHTML;
+      }
+    }
+
+    document.getElementById('voteStatus').innerHTML = `Votes remaining: <strong>${3 - votedItems.length}</strong>`;
+  }
+
+  function createCard(item, rankIndex) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const hasVoted = votedItems.includes(item.id);
+    const userRating = ratedItems[item.id] || 0;
+    
+    let avgStars = item.ratingCount && item.ratingCount > 0 
+      ? (item.totalRating / item.ratingCount) 
+      : (item.stars || 0);
+      
+    avgStars = Math.min(5, Math.max(0, avgStars)).toFixed(1);
+
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      const activeClass = i <= (userRating || Math.round(avgStars)) ? 'active' : '';
+      starsHtml += `<span class="${activeClass}" data-oc-id="${item.id}" data-star-value="${i}" title="Rate ${i} Star${i > 1 ? 's' : ''}">★</span>`;
+    }
+
+    let badgeContent = "";
+    let rankBadgeClass = "";
+    const hasMod = item.modName && item.modName.trim() !== "";
+
+    if (rankIndex) {
+      badgeContent = hasMod ? `#${rankIndex} OC // ${item.modName}` : `#${rankIndex} OC`;
+      if (rankIndex === 1) rankBadgeClass = "badge-rank-1";
+      else if (rankIndex === 2) rankBadgeClass = "badge-rank-2";
+      else if (rankIndex === 3) rankBadgeClass = "badge-rank-3";
+    } else {
+      badgeContent = hasMod ? item.modName : "OC";
+    }
+
+    let audioHtml = '';
+    if (item.soundData) {
+      audioHtml = `
+        <div class="card-audio">
+          <audio controls preload="none">
+            <source src="${item.soundData}" type="audio/ogg">
+            <source src="${item.soundData}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      `;
+    }
+
+    let renderedSvgDisplay = '';
+    const rawSvg = item.svgData || '';
+    if (window.olavoModeActive) {
+      renderedSvgDisplay = '<img src="https://cdn.discordapp.com/attachments/1384710785950814349/1546126978703163392/IMG_8433.jpg?ex=6a9ea675&is=6a9d54f5&hm=39d5a65899b83253f7c001adf585833ccbabdbc0f9a2b3087c604b53390449da&" alt="olavo" style="max-width:100%; max-height:100%; object-fit:contain;">';
+    } else if (rawSvg.trim().startsWith('<svg') || rawSvg.trim().startsWith('<?xml')) {
+      renderedSvgDisplay = rawSvg;
+    } else if (rawSvg.trim().startsWith('data:image') || rawSvg.trim().startsWith('http')) {
+      renderedSvgDisplay = `<img src="${rawSvg}" alt="OC Design" style="max-width:100%; max-height:100%; object-fit:contain;">`;
+    } else {
+      renderedSvgDisplay = rawSvg;
+    }
+
+    card.innerHTML = `
+      <span class="badge-top ${rankBadgeClass}">${badgeContent}</span>
+      <div class="card-content">
+        <div class="svg-preview">${renderedSvgDisplay}</div>
+        <h3 style="font-size:1.5rem; margin:5px 0; color:#fff;">${window.olavoModeActive ? 'olavo' : item.ocName}</h3>
+        <p style="color:#00ff66; margin:0;">By ${item.creatorName}</p>
+        ${audioHtml}
+        <div class="card-desc">${item.desc || 'No description provided.'}</div>
+        <div class="star-rating" id="starsContainer_${item.id}">${starsHtml}</div>
+        <p style="margin:2px 0; font-size:1.1rem; color:#ffd700;">★ <strong>${avgStars}</strong> / 5 (${item.ratingCount || (item.stars ? 1 : 0)} ratings)</p>
+        <p style="font-size:1.1rem; margin:4px 0;"><strong>${item.votes || 0}</strong> Votes</p>
+      </div>
+      <div class="btn-group">
+        <button class="vote-btn" id="voteBtn_${item.id}" ${isVotingPaused || hasVoted || votedItems.length >= 3 ? 'disabled' : ''}>Vote</button>
+        <button class="unvote-btn" id="unvoteBtn_${item.id}" ${isVotingPaused || !hasVoted ? 'disabled' : ''}>Remove Vote</button>
+      </div>
+    `;
+
+    setTimeout(() => {
+      const container = document.getElementById(`starsContainer_${item.id}`);
+      if (container) {
+        container.onclick = (e) => {
+          const targetSpan = e.target.closest('span');
+          if (targetSpan) {
+            const ocId = targetSpan.getAttribute('data-oc-id');
+            const starVal = parseInt(targetSpan.getAttribute('data-star-value'), 10);
+            if (ocId && !isNaN(starVal)) {
+              rateOc(ocId, starVal);
+            }
+          }
+        };
+      }
+
+      const voteBtn = document.getElementById(`voteBtn_${item.id}`);
+      if (voteBtn) voteBtn.onclick = () => castVote(item.id);
+
+      const unvoteBtn = document.getElementById(`unvoteBtn_${item.id}`);
+      if (unvoteBtn) unvoteBtn.onclick = () => removeVote(item.id);
+    }, 0);
+
+    return card;
+  }
+
+  window.rateOc = async (id, stars) => {
+    if (isVotingPaused) {
+      alert("Voting and rating are currently paused by admins.");
+      return;
+    }
+    stars = Math.min(5, Math.max(1, stars));
+    const target = designs.find(d => d.id === id);
+    if (!target) return;
+
+    const previousRating = ratedItems[id] || 0;
+    ratedItems[id] = stars;
+    localStorage.setItem('ratedItems', JSON.stringify(ratedItems));
+
+    let newTotal = target.totalRating !== undefined ? target.totalRating : (target.stars || 0);
+    let newCount = target.ratingCount !== undefined ? target.ratingCount : (target.stars ? 1 : 0);
+
+    if (previousRating > 0) {
+      newTotal = newTotal - previousRating + stars;
+    } else {
+      newTotal += stars;
+      newCount += 1;
+    }
+
+    const newAvg = Math.min(5, (newTotal / newCount)).toFixed(1);
+    await updateDoc(doc(db, "designs", id), { 
+      totalRating: newTotal, 
+      ratingCount: newCount, 
+      stars: parseFloat(newAvg) 
+    });
+  };
+
+  window.castVote = async (id) => {
+    if (isVotingPaused) {
+      alert("Voting is currently paused by admins.");
+      return;
+    }
+    if (votedItems.length < 3 && !votedItems.includes(id)) {
+      votedItems.push(id);
+      localStorage.setItem('votedItems', JSON.stringify(votedItems));
+      await updateDoc(doc(db, "designs", id), { votes: increment(1) });
+    }
+  };
+
+  window.removeVote = async (id) => {
+    if (isVotingPaused) {
+      alert("Voting is currently paused by admins.");
+      return;
+    }
+    if (votedItems.includes(id)) {
+      votedItems = votedItems.filter(v => v !== id);
+      localStorage.setItem('votedItems', JSON.stringify(votedItems));
+      await updateDoc(doc(db, "designs", id), { votes: increment(-1) });
+    }
+  };
+
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const svgFile = document.getElementById('svgFile').files[0];
+    const soundFile = document.getElementById('soundFile').files[0];
+    if (!svgFile) return;
+
+    if (svgFile.size > 800000) {
+      alert("This file is too large! Please use an image or SVG under 800KB.");
+      return;
+    }
+
+    if (soundFile) {
+      if (soundFile.size > 1048576) {
+        alert("Audio must be under 1MB! (reccomend using .ogg file)");
+        return;
+      }
+    }
+
+    const submitBtn = document.getElementById('btnSubmit');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Publishing...";
+
+    const processUploads = async (soundResult = null) => {
+      const reader = new FileReader();
+      reader.onerror = () => {
+        alert("Failed to read the uploaded file.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Publish Submission";
+      };
+
+      reader.onload = async () => {
+        try {
+          const rawResult = reader.result;
+          let formattedData = rawResult.includes('<svg') ? rawResult : `<img src="${rawResult}"/>`;
+
+          await addDoc(collection(db, "designs"), {
+            ocName: document.getElementById('ocName').value,
+            creatorName: document.getElementById('creatorName').value,
+            desc: document.getElementById('desc').value,
+            modName: document.getElementById('modName').value,
+            svgData: formattedData,
+            soundData: soundResult,
+            votes: 0,
+            stars: 0,
+            totalRating: 0,
+            ratingCount: 0,
+            approved: false,
+            createdAt: Date.now()
+          });
+
+          alert('OC Submitted for Admin Approval!');
+          document.getElementById('uploadForm').reset();
+        } catch (err) {
+          console.error("Error uploading OC:", err);
+          alert("Failed to submit OC. Error: " + err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Publish Submission";
+        }
+      };
+      reader.readAsDataURL(svgFile);
+    };
+
+    if (soundFile) {
+      const soundReader = new FileReader();
+      soundReader.onerror = () => {
+        alert("Failed to read the uploaded sound file.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Publish Submission";
+      };
+      soundReader.onload = () => {
+        processUploads(soundReader.result);
+      };
+      soundReader.readAsDataURL(soundFile);
+    } else {
+      processUploads(null);
+    }
+  });
+
+  window.olavoModeActive = false;
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'olavo_mode') {
+      window.olavoModeActive = e.newValue === 'true';
+      applyOlavoModeToElements();
+    }
+  });
+  if (localStorage.getItem('olavo_mode') === 'true') {
+    window.olavoModeActive = true;
+    window.addEventListener('DOMContentLoaded', applyOlavoModeToElements);
+  }
+
+  function applyOlavoModeToElements() {
+    if (window.olavoModeActive) {
+      document.querySelectorAll('img').forEach(img => {
+        if (!img.dataset.originalSrc) img.dataset.originalSrc = img.src;
+        img.src = 'https://cdn.discordapp.com/attachments/1384710785950814349/1546126978703163392/IMG_8433.jpg?ex=6a9ea675&is=6a9d54f5&hm=39d5a65899b83253f7c001adf585833ccbabdbc0f9a2b3087c604b53390449da&';
+      });
+      renderCards();
+    } else {
+      document.querySelectorAll('img').forEach(img => {
+        if (img.dataset.originalSrc) img.src = img.dataset.originalSrc;
+      });
+      renderCards();
+    }
+  }
+</script>
+
+</body>
+</html>
